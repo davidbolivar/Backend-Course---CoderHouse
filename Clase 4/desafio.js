@@ -12,7 +12,7 @@ class Container {
 
 	writeFile = async () => await fs.promises.writeFile(this.path, JSON.stringify(this.products));
 
-	save = async (title, price, thumbnail) => {
+	save = async ({ title, price, thumbnail }) => {
 		if (await this.fileContentExist()) {
 			let fileContent, lastId;
 			try {
@@ -92,7 +92,7 @@ class Container {
 const start = async () => {
 	const Container1 = new Container("products.txt");
 	console.log("Original products ========= ", await Container1.readFile());
-	await Container1.save("Monitor 24 Pulgadas curvo Samsung", 30000, "monitor_samsung_24_curvo.jpg");
+	await Container1.save({ title: "Monitor 24 Pulgadas curvo Samsung", price: 30000, thumbnail: "monitor_samsung_24_curvo.jpg" });
 	console.log(await Container1.getById(1));
 	console.log("Products ========= ", await Container1.getAll());
 
