@@ -28,7 +28,7 @@ const user1 = new User(
 	],
 	["Thor"]
 );
-f;
+
 console.log(user1.getFullName());
 user1.addPet("Molly");
 console.log(user1.getPetNames());
