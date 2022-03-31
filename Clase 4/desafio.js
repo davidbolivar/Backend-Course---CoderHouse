@@ -20,7 +20,7 @@ class Container {
 
 				lastId = !fileContent.length ? 1 : fileContent[fileContent.length - 1].id;
 
-				this.products = [...fileContent, { title, price, thumbnail, id: lastId++ }];
+				this.products = [...fileContent, { title, price, thumbnail, id: lastId + 1 }];
 				await this.writeFile();
 
 				console.log("Product saved");
@@ -61,13 +61,15 @@ class Container {
 		if (await this.fileContentExist()) {
 			try {
 				let fileContent = await this.readFile();
+				console.log("fileContent ::::::::: ", fileContent);
 				let indexToDelete = fileContent.findIndex((product) => product.id === productId);
-				if (indexToDelete) {
+				console.log("indexToDelete ::::::::: ", indexToDelete);
+				if (indexToDelete >= 0) {
 					fileContent.splice(indexToDelete, 1);
 					this.products = [...fileContent];
 					await this.writeFile();
 					console.log("Deleted product.");
-				} else console.log("product not found.");
+				} else console.log("Product not found.");
 			} catch (err) {
 				console.log("deleteById ERROR::: ", err);
 			}
@@ -89,12 +91,19 @@ class Container {
 
 const start = async () => {
 	const Container1 = new Container("products.txt");
-	console.log("Original products => ", await Container1.readFile());
-	await Container1.save("Logitech MX Series Keyboard", 11000, "logitech_mx_keyboard.jpg");
+	console.log("Original products ========= ", await Container1.readFile());
+	await Container1.save("Monitor 24 Pulgadas curvo Samsung", 30000, "monitor_samsung_24_curvo.jpg");
 	console.log(await Container1.getById(1));
-	console.log("Products => ", await Container1.getAll());
-	await Container1.deleteById(4);
-	await Container1.deleteAll();
+	console.log("Products ========= ", await Container1.getAll());
+
+	// #####################################################
+	// DESCOMENTAR PARA PROBAR ESTOS MÉTODOS
+	// #####################################################
+
+	// await Container1.deleteById(1);
+	// await Container1.deleteAll();
+
+	// #####################################################
 };
 
 start();
