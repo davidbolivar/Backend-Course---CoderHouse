@@ -1,0 +1,1 @@
+[{"title":"Logitech MX Series Keyboard","price":11000,"thumbnail":"logitech_mx_keyboard.jpg","id":1},{"title":"Logitech MX Series Mouse","price":5000,"thumbnail":"logitech_mx_mouse.jpg","id":2},{"title":"Notebook ASUS X515 i7 20gb 1TB SSD","price":185000,"thumbnail":"asus_x515_i7.jpg","id":3}]
