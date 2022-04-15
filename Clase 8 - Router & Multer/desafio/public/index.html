@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guardar un producto</title>
+</head>
+
+<body>
+    <h2>Ingrese datos del producto</h2>
+    <hr>
+    <form action="/api/products" method="POST">
+        <p>Nombre del producto:</p>
+        <input type="text" name="title">
+        <p>Precio:</p>
+        <input type="number" name="price">
+        <p>Imagen:</p>
+        <input type="text" name="thumbnail">
+        <br><br>
+        <div>
+            <button>GUARDAR PRODUCTO</button>
+        </div>
+    </form>
+</body>
+
+</html>
