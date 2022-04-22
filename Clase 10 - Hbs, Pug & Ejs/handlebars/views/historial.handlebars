@@ -1,0 +1,36 @@
+<div class="container w-50 mx-auto mt-5">
+
+  {{#if sinProductos}}
+    <h3 class="alert alert-danger text-center">NO HAY PRODUCTOS!</h3>
+
+  {{else}}
+
+    <h1 class="text-center">Productos cargados</h1>
+    <table class="table table-dark table-striped mx-auto p-1">
+      <thead>
+        <tr class="text-center text-warning">
+          <th style="width: 33%;">NOMBRE</th>
+          <th style="width: 33%;">PRECIO</th>
+          <th style="width: 33%;">FOTO</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each productos}}
+          <tr>
+            <td class="text-center">
+              {{this.nombre}}
+            </td>
+            <td class="text-center">
+              {{this.precio}}
+            </td>
+            <td class="text-center">
+              <img src="{{this.foto}}" width="25" height="25" />
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{/if}}
+  <a class="btn btn-danger w-100" href="/">CARGAR PRODUCTO</a>
+
+</div>
