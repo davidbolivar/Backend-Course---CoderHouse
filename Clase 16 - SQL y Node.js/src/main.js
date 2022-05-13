@@ -16,14 +16,13 @@ const io = new IOServer(httpServer);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+node;
 
 const handlebarsConfig = {
 	defaultLayout: "index.handlebars",
 };
 
 app.engine("handlebars", exphbs(handlebarsConfig));
-// app.set("view engine", "handlebars");
-// app.set("views", "./views");
 
 io.on("connection", (socket) => {
 	console.log("Nuevo cliente conectado!");

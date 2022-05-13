@@ -30,17 +30,18 @@ class Products {
 		let products = await this.knex("products").select("*");
 		return products;
 	};
-	// borrarArticuloPorId(id) {
-	// 	return this.knex.from("articulos").where("id", id).del();
+
+	// delete(id) {
+	// 	return this.knex.from("products").where("id", id).del();
 	// }
 
-	// actualizarStockPorId(stock, id) {
-	// 	return this.knex.from("articulos").where("id", id).update({ stock: stock });
+	// stockUpdate(stock, id) {
+	// 	return this.knex.from("products").where("id", id).update({ stock: stock });
 	// }
 
-	close() {
-		this.knex.destroy();
-	}
+	// close() {
+	// 	this.knex.destroy();
+	// }
 }
 
 export const Products_container = new Products(mySqlConfig);
