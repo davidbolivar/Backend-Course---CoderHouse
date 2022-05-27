@@ -1,90 +1,157 @@
+import admin from "firebase-admin";
+import { db, timeStamp } from "../../firebase_init.js";
+import { productsDao } from "../../daos/products/index.js";
 export const Carts_controller_firebase = class Carts_container {
-	constructor() {
-		this.carts = [];
+	constructor(collection) {
+		this.collection = db.collection(collection);
 	}
 
-	findIndex = (id) => this.carts.findIndex((cart) => cart.id == id);
+	// RETORNA TODOS LOS CARRITOS
+	// getAll = async () => {
+	// 	try {
+	// 		let carts = await this.collection.get();
+	// 		let allCarts = carts.docs.map((doc) => doc.data());
+	// 		console.log(allCarts);
+	// 		return allCarts;
+	// 	} catch (err) {
+	// 		return { error: "Error getting carts" };
+	// 	}
+	// };
 
-	findProductIndex = (cart_id, product_id) => {
-		let cart_index = this.findIndex(cart_id);
-		let product_index = this.carts[cart_index].products.findIndex((product) => product.id == product_id);
-		return product_index;
-	};
-
+	// CREA UN CARRITO Y RETORNA EL ID
 	create = async () => {
 		try {
-			let last_id, new_id, new_cart;
-			last_id = !this.carts.length ? 0 : this.carts[this.carts.length - 1].id;
-			new_id = last_id + 1;
-			new_cart = { id: new_id, products: [] };
-			this.carts.push(new_cart);
-			return { cart_id: new_cart.id };
+			let new_cart = await this.collection.add({ createAt: timeStamp, products: [] });
+			return new_cart.id;
 		} catch (err) {
-			console.log("create ERROR::: ", err);
-			return { error: "Cart not created." };
+			return { error: "cart not saved" };
 		}
 	};
 
-	getProducts = async (cart_id) => {
-		try {
-			let cart = this.carts.find((cart) => cart.id == cart_id);
-			if (cart) return cart.products;
-			else return { error: "Cart not found." };
-		} catch (err) {
-			console.log("get ERROR::: ", err);
-			return { error: "Error getting products." };
-		}
-	};
-
+	// TRAE EL CARRITO POR SU ID
 	get = async (cart_id) => {
 		try {
-			let cart = this.carts.find((cart) => cart.id == cart_id);
-			if (cart) return cart;
-			else return { error: "Cart not found." };
+			let cart = await this.collection.doc(cart_id).get();
+			if (cart.exists) return cart.data();
+			else throw new Error("Cart not found");
 		} catch (err) {
-			console.log("get ERROR::: ", err);
-			return { error: "Error getting cart." };
+			return { error: "Error getting cart: " + err };
 		}
 	};
 
+	// RECIBE UN ID DE CARRITO Y RETORNA LOS PRODUCTOS DEL CARRITO
+	getProducts = async (cart_id) => {
+		try {
+			let cart = await this.collection.doc(cart_id).get();
+			if (cart.exists) return cart.data().products;
+			else throw new Error("Cart not found");
+		} catch (err) {
+			return { error: "Error getting cart: " + err };
+		}
+	};
+
+	// AGREGA UN PRODUCTO AL CARRITO
 	addProduct = async (cart_id, product_id) => {
 		try {
-			const product_to_add = await products_list.getById(product_id);
-			let index_to_update = this.findIndex(cart_id);
-			if (index_to_update >= 0 && product_to_add.id) {
-				this.carts[index_to_update].products.push(product_to_add);
-				return true;
-			} else return { error: "Product or cart not exist" };
+			// Trae el producto desde la colección products
+			let product = await productsDao.getById(product_id);
+
+			// Trae los productos actuales del carrito a actualizar
+			let cart_products = await this.getProducts(cart_id);
+
+			// Encuentra el indice del producto en el carrito
+			let product_index = cart_products.findIndex((product) => product.id === product_id);
+
+			//Si el Producto NO ESTÁ en el carrito
+			if (product_index === -1) {
+				// Si el producto no está en el carrito, lo agrega con cantidada 1
+				delete product.stock;
+
+				await this.collection.doc(cart_id).update({
+					products: admin.firestore.FieldValue.arrayUnion({ ...product, id: product_id, quantity: 1 }),
+				});
+
+				// Si el producto ESTÁ en el carrito
+			} else {
+				// Verifica que el producto tenga sufuciente stock
+				if (product.stock < cart_products[product_index].quantity + 1) {
+					throw new Error("Product out of stock");
+				} else {
+					// Elimina la propiedad stock antes de actualizar el carrito
+					delete cart_products[product_index].stock;
+
+					// Borra el producto del carrito
+					await this.collection.doc(cart_id).update({
+						products: admin.firestore.FieldValue.arrayRemove(cart_products[product_index]),
+					});
+
+					// Agrega el producto al carrito con la cantidad actualizada
+					await this.collection.doc(cart_id).update({
+						products: admin.firestore.FieldValue.arrayUnion({ ...cart_products[product_index], quantity: cart_products[product_index].quantity + 1 }),
+					});
+				}
+			}
+			return true;
 		} catch (err) {
-			console.log("addProduct ERROR::: ", err);
-			return { error: "Product not added." };
+			return { error: "Error adding product: " + err };
 		}
 	};
 
+	// AGREGA UN PRODUCTO AL CARRITO
+	decrementProductQuantity = async (cart_id, product_id) => {
+		try {
+			// Trae los productos actuales del carrito a actualizar
+			let cart_products = await this.getProducts(cart_id);
+
+			// Encuentra el indice del producto en el carrito
+			let product_index = cart_products.findIndex((product) => product.id === product_id);
+
+			//Si el Producto NO ESTÁ en el carrito
+			if (product_index === -1) {
+				throw new Error("Product not found in cart");
+				// Si el producto ESTÁ en el carrito
+			} else {
+				// Borra el producto del carrito
+				await this.collection.doc(cart_id).update({
+					products: admin.firestore.FieldValue.arrayRemove(cart_products[product_index]),
+				});
+
+				if (cart_products[product_index].quantity - 1 > 0) {
+					await this.collection.doc(cart_id).update({
+						products: admin.firestore.FieldValue.arrayUnion({ ...cart_products[product_index], quantity: cart_products[product_index].quantity - 1 }),
+					});
+				}
+			}
+			return true;
+		} catch (err) {
+			return { error: "Error decrementing product quantity" + err };
+		}
+	};
+
+	// ELIMINA UN PRODUCTO AL CARRITO
 	deleteProduct = async (cart_id, product_id) => {
 		try {
-			let cart_index = this.findIndex(cart_id);
-			let product_index = this.findProductIndex(cart_id, product_id);
-			if (cart_index >= 0 && product_index >= 0) {
-				this.carts[cart_index].products.splice(product_index, 1);
-				return true;
-			} else return { error: "Product or cart not exist" };
+			// Trae los productos actuales del carrito a actualizar
+			let cart_products = await this.getProducts(cart_id);
+
+			// Encuentra el indice del producto en el carrito
+			let product_index = cart_products.findIndex((product) => product.id === product_id);
+
+			//Si el Producto NO ESTÁ en el carrito
+			if (product_index === -1) {
+				throw new Error("Product not found in cart");
+				// Si el producto ESTÁ en el carrito
+			} else {
+				// Borra el producto del carrito
+				await this.collection.doc(cart_id).update({
+					products: admin.firestore.FieldValue.arrayRemove(cart_products[product_index]),
+				});
+			}
+			return true;
 		} catch (err) {
-			console.log("delete ERROR::: ", err);
-			return { error: "Product not deleted." };
+			return { error: "Error deleting product: " + err };
 		}
 	};
 
-	clearProducts = async (cart_id) => {
-		try {
-			let cart_index = this.findIndex(cart_id);
-			if (cart_index >= 0) {
-				this.carts[cart_index].products = [];
-				return true;
-			} else return { error: "Cart not exist" };
-		} catch (err) {
-			console.log("delete ERROR::: ", err);
-			return { error: "Cart not cleared." };
-		}
-	};
+	// ELIMINA TODOS LOS PRODUCTOS DE UN CARRITO
 };

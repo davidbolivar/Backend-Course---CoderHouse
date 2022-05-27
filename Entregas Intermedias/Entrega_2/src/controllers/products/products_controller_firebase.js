@@ -1,11 +1,4 @@
-import admin from "firebase-admin";
-import config from "../../config.js";
-
-admin.initializeApp({
-	credential: admin.credential.cert(config.firebase),
-});
-
-const db = admin.firestore();
+import { db, timeStamp } from "../../firebase_init.js";
 
 export const Products_controller_firebase = class Products_container {
 	constructor(collection) {
@@ -18,7 +11,7 @@ export const Products_controller_firebase = class Products_container {
 	save = async (product) => {
 		try {
 			let new_product = product;
-			await this.collection.add(new_product);
+			await this.collection.add({ ...new_product, createAt: timeStamp });
 			return true;
 		} catch (err) {
 			return { error: "Product not saved" };
