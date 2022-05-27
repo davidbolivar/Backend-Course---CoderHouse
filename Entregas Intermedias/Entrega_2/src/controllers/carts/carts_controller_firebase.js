@@ -97,7 +97,7 @@ export const Carts_controller_firebase = class Carts_container {
 		}
 	};
 
-	// AGREGA UN PRODUCTO AL CARRITO
+	// RESTA CANTIDAD DE PRODUCTOS DEL CARRITO
 	decrementProductQuantity = async (cart_id, product_id) => {
 		try {
 			// Trae los productos actuales del carrito a actualizar
@@ -154,4 +154,12 @@ export const Carts_controller_firebase = class Carts_container {
 	};
 
 	// ELIMINA TODOS LOS PRODUCTOS DE UN CARRITO
+	clearProducts = async (cart_id) => {
+		try {
+			await this.collection.doc(cart_id).update({ products: [] });
+			return true;
+		} catch (err) {
+			return { error: "Error clearing products: " + err };
+		}
+	};
 };
