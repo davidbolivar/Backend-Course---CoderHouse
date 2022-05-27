@@ -1,0 +1,7 @@
+[
+	{ "title": "Logitech MX Series Keyboard", "description": "Descripción", "stock": 10, "price": 11000, "thumbnail": "logitech_mx_keyboard.jpg", "id": 1 },
+	{ "title": "Logitech MX Series Mouse", "description": "Descripción", "stock": 10, "price": 5000, "thumbnail": "logitech_mx_mouse.jpg", "id": 2 },
+	{ "title": "Notebook ASUS X515 i7 20gb 1TB SSD", "description": "Descripción", "stock": 10, "price": 185000, "thumbnail": "asus_x515_i7.jpg", "id": 3 },
+	{ "id": 4, "title": "Notebook ASUS X515 i10 50gb 2TB SSD", "price": 185000, "thumbnail": "asus_x515_i7.jpg", "description": "Descripción", "stock": 1 },
+	{ "title": "Notebook ASUS Xxxxxx ixxxx 50gb 2TB SSD", "price": 185000, "thumbnail": "asus_x515_i7.jpg", "id": 5, "description": "Descripción", "stock": 1 }
+]
