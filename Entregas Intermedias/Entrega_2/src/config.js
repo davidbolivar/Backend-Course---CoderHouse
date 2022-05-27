@@ -12,5 +12,6 @@ export default {
 		},
 	},
 
-	firebase: {
+	firebase: {},
+	persistence: "firebase",
 };

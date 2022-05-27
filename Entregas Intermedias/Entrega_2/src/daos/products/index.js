@@ -11,12 +11,10 @@ switch (config.persistence) {
 	case "firebase":
 		const { default: productsDaoFirebase } = await import("./products_firebase_DAOS.js");
 		productsDao = new productsDaoFirebase();
-		productsDao.setProducts();
 		break;
 	case "mongodb":
 		const { default: productsDaoMongodb } = await import("./products_mongodb_DAOS.js");
 		productsDao = new productsDaoMongodb();
-		productsDao.setProducts();
 		break;
 	default:
 		const { default: productsDaoMemory } = await import("./products_memory_DAOS.js");
