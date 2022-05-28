@@ -5,8 +5,6 @@ export const Products_controller_firebase = class Products_container {
 		this.collection = db.collection(collection);
 	}
 
-	setProducts = async () => await this.getAll();
-
 	// Agrega un producto
 	save = async (product) => {
 		try {
