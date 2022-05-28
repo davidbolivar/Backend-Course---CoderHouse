@@ -86,18 +86,18 @@ export const Carts_controller_mongodb = class Carts_container {
 
 	//Delete product from cart
 	deleteProduct = async (cart_id, product_id) => {
-		// try {
-		const cart = await this.getById(cart_id);
-		if (!cart) throw new Error("Cart not found");
+		try {
+			const cart = await this.getById(cart_id);
+			if (!cart) throw new Error("Cart not found");
 
-		const product_index = cart.products.findIndex((product) => product._id == product_id);
-		if (product_index === -1) throw new Error("Product not found");
+			const product_index = cart.products.findIndex((product) => product._id == product_id);
+			if (product_index === -1) throw new Error("Product not found");
 
-		await this.collection.findByIdAndUpdate(cart_id, { $pull: { products: { id: product_id } } }, { safe: true, multi: true });
-		return true;
-		// } catch (err) {
-		// 	return { error: err };
-		// }
+			await this.collection.findByIdAndUpdate(cart_id, { $pull: { products: { id: product_id } } }, { safe: true, multi: true });
+			return true;
+		} catch (err) {
+			return { error: err };
+		}
 	};
 
 	clearProducts = async (cart_id) => {
