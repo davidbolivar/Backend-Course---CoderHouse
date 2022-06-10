@@ -56,14 +56,16 @@ io.on("connection", (socket) => {
 	socket.emit("messages", messages);
 
 	app.get("/", (req, res) => {
-		console.log(req.session.email);
-		// req.session.email = req.body.email;
 		if (!req.session.email) res.redirect("/login");
-		else res.json({ message: `Hola ${req.session.email}` });
+		else {
+			req.session.email = req.body.email;
+			res.json({ message: `Hola ${req.session.email}` });
+		}
 	});
 
 	app.get("/login", (req, res) => {
-		res.json({ message: "Debes iniciar sesión." });
+		if (!req.session.email) res.json({ message: "Debes iniciar sesión usando la ruta POST /login." });
+		else res.redirect("/");
 	});
 
 	app.post("/login", (req, res) => {
