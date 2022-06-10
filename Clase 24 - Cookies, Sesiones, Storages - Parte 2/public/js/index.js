@@ -17,11 +17,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 		return generarHtml(contexto);
 	}
 
-	socket.on("email", (email) => {
-		console.log(email);
-		document.getElementById("email").innerHTML = email;
-	});
-
 	// PRODUCTS ########################################################################
 	socket.on("products_list", async (productos) => {
 		// console.table(productos);
