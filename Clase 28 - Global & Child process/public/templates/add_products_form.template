@@ -1,0 +1,21 @@
+<h1 class="text-center mt-2">CARGAR PRODUCTOS</h1>
+<div class="container mx-auto">
+  <form id="form" action="/products" method="POST" class="bg-light p-4 rounded border border-secondary my-4">
+    <div class="mb-2 row">
+      <label for="title" class="col-sm-3 col-md-2 col-form-label">Nombre</label>
+      <div class="col-sm-9 col-md-10"><input type="text" class="form-control" name="title" required /></div>
+    </div>
+
+    <div class="mb-2 row">
+      <label for="price" class="col-sm-3 col-md-2 col-form-label">Precio</label>
+      <div class="col-sm-9 col-md-10"><input type="text" class="form-control" name="price" required /></div>
+    </div>
+
+    <div class="mb-2 row">
+      <label for="thumbnail" class="col-sm-3 col-md-2 col-form-label">Imagen</label>
+      <div class="col-sm-9 col-md-10"><input type="text" class="form-control" name="thumbnail" required /></div>
+    </div>
+
+    <button class="btn btn-success w-100 text-center" type="submit">Enviar</button>
+  </form>
+</div>
