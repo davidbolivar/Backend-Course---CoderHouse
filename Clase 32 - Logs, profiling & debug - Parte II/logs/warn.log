@@ -1,0 +1,4 @@
+[2022-07-07T22:48:38.130] [WARN] prod - No se encontró la ruta: /loginx con método POST
+[2022-07-07T22:48:47.867] [WARN] prod - No se encontró la ruta: /login2 con método GET
+[2022-07-07T22:49:06.897] [WARN] prod - No se encontró la ruta: /loginx3 con método POST
+[2022-07-07T22:49:12.062] [WARN] prod - No se encontró la ruta: /login4 con método POST
