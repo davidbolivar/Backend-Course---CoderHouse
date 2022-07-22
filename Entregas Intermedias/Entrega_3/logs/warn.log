@@ -1,0 +1,11 @@
+
+[2022-07-21T21:56:37.881] [WARN] prod - Login error: User not found: davidbolivarhx@gmail.com
+[2022-07-21T22:06:02.612] [WARN] prod - Register error: Invalid username or password
+[2022-07-21T22:06:17.330] [WARN] prod - Register error: Missing credentials
+[2022-07-21T22:06:25.879] [WARN] prod - Register error: Missing credentials
+[2022-07-21T22:06:34.595] [WARN] prod - Register error: User already exists
+[2022-07-21T22:07:08.414] [WARN] prod - Login error: Missing credentials
+[2022-07-21T22:08:27.513] [WARN] prod - Login error: Password must be a string
+[2022-07-21T22:40:15.574] [WARN] prod - Login error: Invalid password
+[2022-07-21T22:42:50.398] [WARN] prod - Register error: User already exists
+
