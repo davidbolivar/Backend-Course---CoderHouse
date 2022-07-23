@@ -7,9 +7,9 @@ import { new_order_whatsapp_template } from "../../senders/whatsapp/templates/ne
 import { sendSms } from "../../senders/sms/index.js";
 // import { new_order_sms_template } from "../../senders/sms/templates/new_order_sms.js";
 import { order_prepare_sms_template } from "../../senders/sms/templates/order_prepare_sms.js";
-import { productsDao } from "../../daos/products/index.js";
 import logger from "../../../logs/logger.js";
 import dotenv from "dotenv";
+import { productsDao } from "../../daos/products/index.js";
 dotenv.config();
 
 await mongoose.connect(config.mongodb.cnxStr, config.mongodb.options);
@@ -58,7 +58,7 @@ export const Carts_controller_mongodb = class Carts_container {
 	getById = async (cart_id) => {
 		try {
 			const cart = await this.collection.findById(cart_id);
-			if (!cart) throw new Error("Cart not found");
+			if (!cart) return { error: "Cart not found" };
 			return cart;
 		} catch (err) {
 			logger.error("Cart not found: ", err);
@@ -69,7 +69,7 @@ export const Carts_controller_mongodb = class Carts_container {
 	getProducts = async (cart_id) => {
 		try {
 			const cart = await this.collection.findById(cart_id);
-			if (!cart) throw new Error("Cart not found");
+			if (!cart) return { error: "Cart not found" };
 			return cart.products;
 		} catch (err) {
 			logger.error("Products not found: ", err);
@@ -80,10 +80,10 @@ export const Carts_controller_mongodb = class Carts_container {
 	addProduct = async (cart_id, product_id) => {
 		try {
 			const cart = await this.getById(cart_id);
+			if (cart.error) return cart;
 
-			if (!cart) throw new Error("Cart not found");
 			const product = await productsDao.getById(product_id);
-			if (!product) throw new Error("Product not found");
+			if (!product) return { error: "Product not found" };
 
 			const product_index = cart.products.findIndex((product) => product._id == product_id);
 			if (product_index === -1) {

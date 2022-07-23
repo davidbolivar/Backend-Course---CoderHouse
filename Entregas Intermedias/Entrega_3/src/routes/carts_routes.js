@@ -1,8 +1,14 @@
 import { json, Router } from "express";
 import { cartsDao } from "../daos/carts/index.js";
 import { isAuthenticated } from "../middlewares/is_authenticated.js";
+import { isAdmin } from "../middlewares/is_admin.js";
 
 export const carts_router = new Router();
+
+carts_router.get("/", isAdmin, async (req, res) => {
+	let response = await cartsDao.getAll();
+	response.error ? res.status(400).json(response) : res.status(200).json(response);
+});
 
 carts_router.post("/", isAuthenticated, async (req, res) => {
 	let cart_id = await cartsDao.findByUserId(req.user._id);

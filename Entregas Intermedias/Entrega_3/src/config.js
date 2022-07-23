@@ -11,7 +11,7 @@ export default {
 			// useCreateIndex: true,
 			serverSelectionTimeoutMS: 5000,
 		},
-		sessionTimeout: 60000,
+		sessionTimeout: 500000,
 	},
 
 	firebase: {

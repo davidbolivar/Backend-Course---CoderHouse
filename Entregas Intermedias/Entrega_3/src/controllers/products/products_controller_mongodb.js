@@ -34,7 +34,7 @@ export const Products_controller_mongodb = class Products_container {
 	getById = async (product_id) => {
 		try {
 			const product = await this.collection.findById(product_id);
-			if (!product) throw new Error("Product not found");
+			if (!product) return { error: "Product not found" };
 			return product;
 		} catch (err) {
 			logger.error("Product not found: ", err);

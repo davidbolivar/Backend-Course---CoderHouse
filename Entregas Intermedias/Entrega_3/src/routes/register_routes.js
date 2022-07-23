@@ -18,10 +18,7 @@ passport.use(
 				return done(err);
 			}
 
-			if (user) {
-				return done(null, false, { message: "User already exists" });
-				// return done(null, false);
-			}
+			if (user) return done(null, false, { message: "User already exists" });
 
 			let passwordHash = await bcrypt.hash(password, 10);
 			const newUser = {

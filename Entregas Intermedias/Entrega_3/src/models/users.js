@@ -6,6 +6,6 @@ export default mongoose.model("Users", {
 	name: String,
 	address: String,
 	age: Number,
-	phone: Number,
+	phone: String,
 	photo: String,
 });
