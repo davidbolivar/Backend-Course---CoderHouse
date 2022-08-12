@@ -1,0 +1,3 @@
+[2022-07-07T22:59:08.443] [ERROR] prod - Error al crear la tabla de productos: Error: Access denied for user 'coderx'@'localhost' (using password: YES)
+[2022-07-07T22:59:23.535] [ERROR] prod - Error al crear la tabla de productos: Error: Access denied for user 'coderx'@'localhost' (using password: YES)
+[2022-07-12T21:05:10.909] [ERROR] prod - Error al crear la tabla de productos: Error: Access denied for user 'coderx'@'localhost' (using password: YES)
