@@ -1,0 +1,12 @@
+
+[2022-07-21T23:16:35.001] [ERROR] prod - Logout error:  ReferenceError: req is not defined
+    at LoginDaoMongodb.deleteLogout (file:///C:/Users/david/Desktop/curso-coderhouse/Backend/Entregas%20Intermedias/Entrega_3/src/controllers/login/login_controller_mongodb.js:26:5)
+    at file:///C:/Users/david/Desktop/curso-coderhouse/Backend/Entregas%20Intermedias/Entrega_3/src/routes/login_routes.js:53:26
+    at Layer.handle [as handle_request] (C:\Users\david\Desktop\curso-coderhouse\Backend\Entregas Intermedias\Entrega_3\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\david\Desktop\curso-coderhouse\Backend\Entregas Intermedias\Entrega_3\node_modules\express\lib\router\route.js:144:13)
+    at Route.dispatch (C:\Users\david\Desktop\curso-coderhouse\Backend\Entregas Intermedias\Entrega_3\node_modules\express\lib\router\route.js:114:3)
+    at Layer.handle [as handle_request] (C:\Users\david\Desktop\curso-coderhouse\Backend\Entregas Intermedias\Entrega_3\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\david\Desktop\curso-coderhouse\Backend\Entregas Intermedias\Entrega_3\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\david\Desktop\curso-coderhouse\Backend\Entregas Intermedias\Entrega_3\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\david\Desktop\curso-coderhouse\Backend\Entregas Intermedias\Entrega_3\node_modules\express\lib\router\index.js:280:10)
+    at expressInit (C:\Users\david\Desktop\curso-coderhouse\Backend\Entregas Intermedias\Entrega_3\node_modules\express\lib\middleware\init.js:40:5)

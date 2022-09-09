@@ -1,0 +1,22 @@
+{
+	"type": "module",
+	"name": "entrega_final_backend_coder_house",
+	"version": "1.0.0",
+	"description": "",
+	"main": "src/server.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node ."
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"connect-mongo": "^4.6.0",
+		"dotenv": "^16.0.1",
+		"express": "^4.18.1",
+		"log4js": "^6.6.1",
+		"mongoose": "^6.5.3",
+		"uuid": "^8.3.2"
+	}
+}
