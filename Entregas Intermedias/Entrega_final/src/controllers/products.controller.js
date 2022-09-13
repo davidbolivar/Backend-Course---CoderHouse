@@ -1,11 +1,14 @@
 import { productsService } from "../services/products.service.js";
 
 class Controller {
-	constructor() {}
+	#productsService = productsService;
+	constructor() {
+		this.#productsService = productsService;
+	}
 
 	create = async (req, res) => {
 		try {
-			const product = await productsService.create(req);
+			const product = await this.#productsService.create(req);
 			res.status(201).json(product);
 		} catch (error) {
 			res.status(error.status).json(error);
@@ -14,7 +17,7 @@ class Controller {
 
 	getAll = async (req, res) => {
 		try {
-			const products = await productsService.getAll();
+			const products = await this.#productsService.getAll();
 			res.status(201).json(products);
 		} catch (error) {
 			res.status(error.status).json(error);
@@ -23,7 +26,7 @@ class Controller {
 
 	getById = async (req, res) => {
 		try {
-			const product = await productsService.getById(req);
+			const product = await this.#productsService.getById(req);
 			res.status(201).json(product);
 		} catch (error) {
 			res.status(error.status).json(error);
@@ -32,7 +35,7 @@ class Controller {
 
 	updateById = async (req, res) => {
 		try {
-			const updatedProduct = await productsService.updateById(req);
+			const updatedProduct = await this.#productsService.updateById(req);
 			res.status(201).json(updatedProduct);
 		} catch (error) {
 			res.status(error.status).json(error);
@@ -41,16 +44,12 @@ class Controller {
 
 	deleteById = async (req, res) => {
 		try {
-			await productsService.deleteById(req);
+			await this.#productsService.deleteById(req);
 			res.status(204).json();
 		} catch (error) {
-			console.log({ error });
 			res.status(error.status).json(error);
 		}
 	};
-	// -------------------------------------------------
-	// TODO: Method for discount stock on create order
-	// -------------------------------------------------
 }
 
-export const productsController = new Controller();
+export const productsController = new Controller(productsService);

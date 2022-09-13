@@ -7,15 +7,15 @@ export default class GetProductModel {
 
 	get allProductsDto() {
 		const products = this.products.map((product) => {
-			const { title, description, thumbnail, price, stock, id } = product;
-			return { id, title, description, thumbnail, price, stock };
+			const { name, description, image, price, stock, id } = product;
+			return { id, name, description, image, price, stock };
 		});
 		return JSON.parse(JSON.stringify(products));
 	}
 
 	get oneProductDto() {
-		const { title, description, thumbnail, price, stock, id } = this.products;
-		const product = { id, title, description, thumbnail, price, stock };
+		const { name, description, image, price, stock, id } = this.products;
+		const product = { id, name, description, image, price, stock };
 		return JSON.parse(JSON.stringify(product));
 	}
 }

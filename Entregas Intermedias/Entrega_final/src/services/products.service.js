@@ -1,5 +1,5 @@
 // import logger from "../../../../../logs/logger.js";
-import NewProductModel from "../models/new-product.model.js";
+import ProductModel from "../models/product.model.js";
 import GetProductModel from "../models/get-product.model.js";
 import { productsDao } from "../daos/products/index.js";
 
@@ -11,9 +11,9 @@ class ProductsService {
 	#newProductModel;
 	#uuidv4;
 
-	constructor(productsDao, NewProductModel, GetProductModel, uuidv4) {
+	constructor(productsDao, ProductModel, GetProductModel, uuidv4) {
 		this.#productsDao = productsDao;
-		this.#newProductModel = NewProductModel;
+		this.#newProductModel = ProductModel;
 		this.#getProductModel = GetProductModel;
 		this.#uuidv4 = uuidv4;
 	}
@@ -21,20 +21,17 @@ class ProductsService {
 	create = async (req) => {
 		try {
 			const uuid = this.#uuidv4();
-			console.log("UUID", uuid);
 			const newProduct = new this.#newProductModel(req.body);
 			const newProductDto = newProduct.dto;
-			console.log("PRODUCTO NUEVO", { ...newProductDto, uuid });
 			return await this.#productsDao.create({ ...newProductDto, id: uuid });
 		} catch (error) {
-			console.log({ error });
 			// logger.error(error);
 
 			// Si el error no es ninguno de los esperados, enviamos uno genérico
 			if (!error.expected)
 				error = {
-					message: "Error al crear nueva solicitud.",
-					code: "post_new_requests_error",
+					message: "Error al crear nuevo producto.",
+					code: "post_new_product_error",
 					status: 500,
 				};
 
@@ -50,7 +47,6 @@ class ProductsService {
 			return products.allProductsDto;
 		} catch (error) {
 			// logger.error(error);
-			console.log({ error });
 			// Si el error no es ninguno de los esperados, enviamos uno genérico
 			if (!error.expected)
 				error = {
@@ -79,7 +75,6 @@ class ProductsService {
 			return productDto.oneProductDto;
 		} catch (error) {
 			// logger.error(error);
-			console.log({ error });
 			// Si el error no es ninguno de los esperados, enviamos uno genérico
 			if (!error.expected)
 				error = {
@@ -106,11 +101,10 @@ class ProductsService {
 			return await this.#productsDao.updateById(req.params.id, req.body);
 		} catch (error) {
 			// logger.error(error);
-			console.log({ error });
 			// Si el error no es ninguno de los esperados, enviamos uno genérico
 			if (!error.expected)
 				error = {
-					message: "Error al actualizar producto por id.",
+					message: "Error al actualizar producto.",
 					code: "update_product_by_id_error",
 					status: 500,
 				};
@@ -133,7 +127,6 @@ class ProductsService {
 			return await this.#productsDao.deleteById(req.params.id);
 		} catch (error) {
 			// logger.error(error);
-			console.log({ error });
 			// Si el error no es ninguno de los esperados, enviamos uno genérico
 			if (!error.expected)
 				error = {
@@ -148,4 +141,4 @@ class ProductsService {
 	};
 }
 
-export const productsService = new ProductsService(productsDao, NewProductModel, GetProductModel, uuidv4);
+export const productsService = new ProductsService(productsDao, ProductModel, GetProductModel, uuidv4);

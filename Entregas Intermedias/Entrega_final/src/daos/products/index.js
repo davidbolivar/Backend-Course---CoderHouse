@@ -4,9 +4,9 @@ let productsDao;
 
 switch (config.persistence) {
 	case "mongodb":
-		const { default: ProductsDaoMongodb } = await import("./mongodb/products-mongodb.dao.js");
-		const { default: mongooseProductSchema } = await import("./mongodb/products.schema.js");
-		productsDao = new ProductsDaoMongodb(mongooseProductSchema);
+		const { default: ProductsDaoMongodb } = await import("./mongodb/products.mongodb.dao.js");
+		const { default: mongooseProductModel } = await import("./mongodb/products.mongoose.model.js");
+		productsDao = new ProductsDaoMongodb(mongooseProductModel);
 		break;
 	default:
 		throw {

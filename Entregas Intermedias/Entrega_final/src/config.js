@@ -7,7 +7,7 @@ export default {
 	},
 
 	mongodb: {
-		connectionString: "mongodb+srv://davidbolivar:asd123@cluster0.lm0ks.mongodb.net/coder_final?retryWrites=true&w=majority",
+		connectionString: process.env.MONGO_CONNECT_STRING,
 		options: {
 			// useNewUrlParser: true,
 			// useUnifiedTopology: true,
