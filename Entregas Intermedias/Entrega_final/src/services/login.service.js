@@ -31,7 +31,8 @@ class LoginService {
 				};
 			}
 
-			const token = this.#tokenGenerator(user.id, user.email);
+			const token = this.#tokenGenerator(user);
+
 			return { id: user.id, username: user.email, token };
 		} catch (error) {
 			if (!error.expected)

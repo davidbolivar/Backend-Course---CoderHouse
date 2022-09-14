@@ -14,7 +14,7 @@ export default {
 			// useCreateIndex: true,
 			serverSelectionTimeoutMS: 5000,
 		},
-		sessionTimeout: 500000,
+		// sessionTimeout: 500000,
 	},
 	persistence: "mongodb",
 };

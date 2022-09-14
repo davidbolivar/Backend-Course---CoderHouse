@@ -24,6 +24,7 @@ export const isAuthenticated = (req, res, next) => {
 
 	try {
 		req.user = jwt.verify(token, process.env.JWT_SECRET);
+		console.log("REQ USER >>>>>>>>", req.user);
 	} catch (error) {
 		return res.status(403).json({
 			message: "No autorizado. Token inválido.",

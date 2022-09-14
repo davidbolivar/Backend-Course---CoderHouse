@@ -65,9 +65,7 @@ class CartsService {
 					status: 404,
 					expected: true,
 				};
-			await this.#cartsDao.addProduct(req.user.id, product);
-
-			return product;
+			return this.#cartsDao.addProduct(req.user.id, product);
 		} catch (error) {
 			if (!error.expected)
 				error = {

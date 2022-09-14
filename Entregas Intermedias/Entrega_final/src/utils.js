@@ -4,8 +4,8 @@ import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 dotenv.config();
 
-export const tokenGenerator = (id, email) => {
-	return jwt.sign({ id, email }, process.env.JWT_SECRET, {
+export const tokenGenerator = ({ id, email, name, lastname, phone, image }) => {
+	return jwt.sign({ id, email, name, lastname, phone, image }, process.env.JWT_SECRET, {
 		expiresIn: process.env.TOKEN_EXPIRATION_TIME,
 	});
 };

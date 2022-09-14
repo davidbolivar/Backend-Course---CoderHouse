@@ -3,7 +3,11 @@ import ProductModel from "../models/product.model.js";
 import GetProductModel from "../models/get-product.model.js";
 import { productsDao } from "../daos/products/index.js";
 
+// ------------------------------------------------------------
+// TODO: SACAR UUID DE AQUÍ Y HACERLO EN EL MODELO DE PRODUCTOS
+// ------------------------------------------------------------
 import { v4 as uuidv4 } from "uuid";
+// ------------------------------------------------------------
 
 class ProductsService {
 	#productsDao;

@@ -29,13 +29,30 @@ class UsersService {
 
 			const userModel = new this.#userModel(this.#idGenerator, this.#encryptPassword, req.body);
 			const userDto = await userModel.dto();
-			const newUser = await this.#usersDao.create(userDto);
 
-			if (newUser) await this.#cartsService.create(newUser.id);
-			const token = this.#tokenGenerator(newUser.id, newUser.email);
+			const newUser = await this.#usersDao.create(userDto);
+			if (!newUser)
+				throw {
+					message: "Error al crear usuario.",
+					code: "create_user_error",
+					status: 500,
+					expected: true,
+				};
+
+			const userCart = await this.#cartsService.create(newUser.id);
+			if (!userCart)
+				throw {
+					message: "Error al crear carrito de usuario.",
+					code: "create_cart_error",
+					status: 500,
+					expected: true,
+				};
+
+			const token = this.#tokenGenerator(newUser);
 
 			return { id: newUser.id, username: newUser.email, token };
 		} catch (error) {
+			console.log({ error });
 			if (!error.expected)
 				error = {
 					message: "Error al registrar usuario.",

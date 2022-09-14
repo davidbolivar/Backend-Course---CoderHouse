@@ -37,6 +37,14 @@ class CartsDaoMongodb {
 			throw error;
 		}
 	};
+
+	deleteAllProducts = async (cartId) => {
+		try {
+			return await this.#mongooseCartModel.findOneAndUpdate({ id: cartId }, { $set: { products: [] } });
+		} catch (error) {
+			throw error;
+		}
+	};
 }
 
 export default CartsDaoMongodb;
