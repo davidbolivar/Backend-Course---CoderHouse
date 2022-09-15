@@ -1,3 +1,4 @@
+import logger from "../../logs/logger.js";
 import LoginModel from "../models/login.model.js";
 import { usersDao } from "../daos/users/index.js";
 import { tokenGenerator, passwordChecker } from "../utils.js";
@@ -35,6 +36,7 @@ class LoginService {
 
 			return { id: user.id, username: user.email, token };
 		} catch (error) {
+			logger.error(error);
 			if (!error.expected)
 				error = {
 					message: "Error al loguearse.",

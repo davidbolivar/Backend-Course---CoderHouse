@@ -1,4 +1,4 @@
-// import logger from "../../../../../logs/logger.js";
+import logger from "../../logs/logger.js";
 import ProductModel from "../models/product.model.js";
 import GetProductModel from "../models/get-product.model.js";
 import { productsDao } from "../daos/products/index.js";
@@ -6,32 +6,29 @@ import { productsDao } from "../daos/products/index.js";
 // ------------------------------------------------------------
 // TODO: SACAR UUID DE AQUÍ Y HACERLO EN EL MODELO DE PRODUCTOS
 // ------------------------------------------------------------
-import { v4 as uuidv4 } from "uuid";
+import { idGenerator } from "../utils.js";
 // ------------------------------------------------------------
 
 class ProductsService {
 	#productsDao;
 	#getProductModel;
 	#newProductModel;
-	#uuidv4;
+	#idGenerator;
 
-	constructor(productsDao, ProductModel, GetProductModel, uuidv4) {
+	constructor(productsDao, ProductModel, GetProductModel, idGenerator) {
 		this.#productsDao = productsDao;
 		this.#newProductModel = ProductModel;
 		this.#getProductModel = GetProductModel;
-		this.#uuidv4 = uuidv4;
+		this.#idGenerator = idGenerator;
 	}
 
 	create = async (req) => {
 		try {
-			const uuid = this.#uuidv4();
-			const newProduct = new this.#newProductModel(req.body);
+			const newProduct = new this.#newProductModel(this.#idGenerator, req.body);
 			const newProductDto = newProduct.dto;
-			return await this.#productsDao.create({ ...newProductDto, id: uuid });
+			return await this.#productsDao.create(newProductDto);
 		} catch (error) {
-			// logger.error(error);
-
-			// Si el error no es ninguno de los esperados, enviamos uno genérico
+			logger.error(error);
 			if (!error.expected)
 				error = {
 					message: "Error al crear nuevo producto.",
@@ -50,8 +47,7 @@ class ProductsService {
 			const products = new this.#getProductModel(allProducts);
 			return products.allProductsDto;
 		} catch (error) {
-			// logger.error(error);
-			// Si el error no es ninguno de los esperados, enviamos uno genérico
+			logger.error(error);
 			if (!error.expected)
 				error = {
 					message: "Error al obtener todos los productos.",
@@ -78,8 +74,7 @@ class ProductsService {
 			const productDto = new this.#getProductModel(product);
 			return productDto.oneProductDto;
 		} catch (error) {
-			// logger.error(error);
-			// Si el error no es ninguno de los esperados, enviamos uno genérico
+			logger.error(error);
 			if (!error.expected)
 				error = {
 					message: "Error al obtener producto por id.",
@@ -104,8 +99,7 @@ class ProductsService {
 				};
 			return await this.#productsDao.updateById(req.params.id, req.body);
 		} catch (error) {
-			// logger.error(error);
-			// Si el error no es ninguno de los esperados, enviamos uno genérico
+			logger.error(error);
 			if (!error.expected)
 				error = {
 					message: "Error al actualizar producto.",
@@ -130,8 +124,7 @@ class ProductsService {
 				};
 			return await this.#productsDao.deleteById(req.params.id);
 		} catch (error) {
-			// logger.error(error);
-			// Si el error no es ninguno de los esperados, enviamos uno genérico
+			logger.error(error);
 			if (!error.expected)
 				error = {
 					message: "Error al eliminar producto por id.",
@@ -145,4 +138,4 @@ class ProductsService {
 	};
 }
 
-export const productsService = new ProductsService(productsDao, ProductModel, GetProductModel, uuidv4);
+export const productsService = new ProductsService(productsDao, ProductModel, GetProductModel, idGenerator);

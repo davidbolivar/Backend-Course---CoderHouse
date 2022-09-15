@@ -1,5 +1,3 @@
-// TODO: HAY QUE MOSTRAR LOS ERRORES Y GUARDARLOS CON show_error() Y write_error()
-
 export default class CartModel {
 	#id;
 	#products;
@@ -20,7 +18,7 @@ export default class CartModel {
 
 		if (typeof id !== "string")
 			throw {
-				message: "El id debe ser un string.",
+				message: "El id de carrito debe ser un string.",
 				code: "id_must_be_string",
 				status: 400,
 				expected: true,

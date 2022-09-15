@@ -22,7 +22,7 @@ export default class UserModel {
 	set id(id) {
 		if (!id)
 			throw {
-				message: "El id es requerido.",
+				message: "El id de usuario es requerido.",
 				code: "id_required",
 				expected: true,
 				status: 400,
@@ -30,7 +30,7 @@ export default class UserModel {
 
 		if (typeof id !== "string")
 			throw {
-				message: "El id debe ser un string.",
+				message: "El id de usuario debe ser un string.",
 				code: "id_must_be_string",
 				status: 400,
 				expected: true,
@@ -42,7 +42,7 @@ export default class UserModel {
 	set password(password) {
 		if (!password)
 			throw {
-				message: "La contraseña es requerida.",
+				message: "La contraseña de usuario es requerida.",
 				code: "password_required",
 				expected: true,
 				status: 400,
@@ -50,7 +50,7 @@ export default class UserModel {
 
 		if (typeof password !== "string")
 			throw {
-				message: "La contraseña debe ser un string.",
+				message: "La contraseña de usuario debe ser un string.",
 				code: "password_must_be_string",
 				status: 400,
 				expected: true,
@@ -62,7 +62,7 @@ export default class UserModel {
 	set email(email) {
 		if (!email)
 			throw {
-				message: "El correo electrónico es requerido.",
+				message: "El correo electrónico de usuario es requerido.",
 				code: "email_required",
 				expected: true,
 				status: 400,
@@ -70,7 +70,7 @@ export default class UserModel {
 
 		if (typeof email !== "string")
 			throw {
-				message: "El correo electrónico debe ser un string.",
+				message: "El correo electrónico de usuario debe ser un string.",
 				code: "email_must_be_string",
 				status: 400,
 				expected: true,

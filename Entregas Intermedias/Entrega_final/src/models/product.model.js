@@ -1,14 +1,36 @@
 export default class ProductModel {
+	#id;
 	#name;
 	#description;
 	#image;
 	#price;
 
-	constructor({ name, description, image, price }) {
+	constructor(idGenerator, { name, description, image, price }) {
+		this.id = idGenerator();
 		this.name = name;
 		this.description = description;
 		this.image = image;
 		this.price = price;
+	}
+
+	set id(id) {
+		if (!id)
+			throw {
+				message: "El id de producto es requerido.",
+				code: "product_id_required",
+				expected: true,
+				status: 400,
+			};
+
+		if (typeof id !== "string")
+			throw {
+				message: "El id de producto debe ser un string.",
+				code: "product_id_must_be_string",
+				status: 400,
+				expected: true,
+			};
+
+		this.#id = id;
 	}
 
 	set name(name) {
@@ -121,6 +143,7 @@ export default class ProductModel {
 
 	get dto() {
 		const data = {
+			id: this.#id,
 			name: this.#name,
 			description: this.#description,
 			image: this.#image,

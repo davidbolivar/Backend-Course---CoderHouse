@@ -1,5 +1,3 @@
-// TODO: HAY QUE MOSTRAR LOS ERRORES Y GUARDARLOS CON show_error() Y write_error()
-
 export default class GetProductModel {
 	constructor(products) {
 		this.products = products;

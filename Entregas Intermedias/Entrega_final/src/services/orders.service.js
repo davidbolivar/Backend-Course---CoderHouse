@@ -1,9 +1,11 @@
+import logger from "../../logs/logger.js";
 import OrderModel from "../models/order.model.js";
 import { ordersDao } from "../daos/orders/index.js";
 import { cartsDao } from "../daos/carts/index.js";
 import { idGenerator } from "../utils.js";
 import { transporter } from "../senders/email/gmail.js";
-import { newOrderEmailTemplate } from "../senders/email/templates/new-order-email.template.js";
+import { newOrderAdminEmailTemplate } from "../senders/email/templates/new-order-admin-email.template.js";
+import { newOrderUserEmailTemplate } from "../senders/email/templates/new-order-user-email.template.js";
 
 class OrdersService {
 	#ordersDao;
@@ -40,7 +42,7 @@ class OrdersService {
 
 			return newOrder;
 		} catch (error) {
-			console.log({ error });
+			logger.error(error);
 			if (!error.expected)
 				error = {
 					message: "Error al crear orden.",
@@ -58,7 +60,7 @@ class OrdersService {
 			console.log("req", req.user);
 			return await this.#ordersDao.getAll(req.user.id);
 		} catch (error) {
-			console.log({ error });
+			logger.error();
 			if (!error.expected)
 				error = {
 					message: "Error al obtener todos los productos.",
@@ -73,10 +75,13 @@ class OrdersService {
 
 	#sendNotificationEmail = async (order) => {
 		try {
-			const template = newOrderEmailTemplate(order);
-			await transporter.sendMail(template);
+			const adminEmailTemplate = newOrderAdminEmailTemplate(order);
+			await transporter.sendMail(adminEmailTemplate);
+
+			const userEmailTemplate = newOrderUserEmailTemplate(order);
+			await transporter.sendMail(userEmailTemplate);
 		} catch (error) {
-			console.log({ error });
+			logger.error();
 			if (!error.expected)
 				error = {
 					message: "Error al enviar notificación.",

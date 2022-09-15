@@ -1,10 +1,8 @@
-// import logger from "../../../../../logs/logger.js";
+import logger from "../../logs/logger.js";
 import UserModel from "../models/user.model.js";
 import { usersDao } from "../daos/users/index.js";
 import { cartsService } from "../services/carts.service.js";
 import { tokenGenerator, idGenerator, encryptPassword } from "../utils.js";
-
-// import bcrypt from "bcrypt";
 
 class UsersService {
 	#usersDao;
@@ -52,7 +50,8 @@ class UsersService {
 
 			return { id: newUser.id, username: newUser.email, token };
 		} catch (error) {
-			console.log({ error });
+			logger.error(error);
+
 			if (!error.expected)
 				error = {
 					message: "Error al registrar usuario.",
@@ -77,6 +76,7 @@ class UsersService {
 				};
 			return false;
 		} catch (error) {
+			logger.error(error);
 			throw error;
 		}
 	};

@@ -1,4 +1,4 @@
-// import logger from "../../../../../logs/logger.js";
+import logger from "../../logs/logger.js";
 import CartModel from "../models/cart.model.js";
 import { cartsDao } from "../daos/carts/index.js";
 import { productsDao } from "../daos/products/index.js";
@@ -19,6 +19,7 @@ class CartsService {
 			const newCart = new this.#cartModel(id);
 			return await this.#cartsDao.create(newCart.dto);
 		} catch (error) {
+			logger.error(error);
 			if (!error.expected)
 				error = {
 					message: "Error al crear nuevo carrito.",
@@ -43,6 +44,7 @@ class CartsService {
 				};
 			return cart.products;
 		} catch (error) {
+			logger.error();
 			if (!error.expected)
 				error = {
 					message: "Error al obtener todos los productos.",
@@ -67,6 +69,7 @@ class CartsService {
 				};
 			return this.#cartsDao.addProduct(req.user.id, product);
 		} catch (error) {
+			logger.error();
 			if (!error.expected)
 				error = {
 					message: "Error al agregar producto al carrito.",
@@ -92,6 +95,7 @@ class CartsService {
 				};
 			return await this.#cartsDao.deleteProduct(req.user.id, req.params.productId);
 		} catch (error) {
+			logger.error();
 			if (!error.expected)
 				error = {
 					message: "Error al eliminar producto.",

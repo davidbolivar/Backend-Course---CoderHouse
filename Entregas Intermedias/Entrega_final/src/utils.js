@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
+import os from "os";
 dotenv.config();
 
 export const tokenGenerator = ({ id, email, name, lastname, phone, image }) => {
@@ -20,4 +21,15 @@ export const encryptPassword = async (password) => {
 
 export const passwordChecker = async (password, hash) => {
 	return await bcrypt.compare(password, hash);
+};
+
+export const serverInfo = {
+	os: process.env.os,
+	arguments: process.argv.slice(2),
+	node_version: process.versions.node,
+	memory_usage: process.memoryUsage().rss,
+	exec_path: process.execPath,
+	process_id: process.pid,
+	current_working_directory: process.cwd(),
+	numOfCPUs: os.cpus().length,
 };
